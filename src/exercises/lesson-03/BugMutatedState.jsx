@@ -10,11 +10,10 @@
 
 import { useState } from 'react';
 export default function BugMutatedState() {
-  let [count, setCount] = useState(0);
+  const [count, setCount] = useState(0);
 
   function handleAdd() {
-    count++;
-    setCount(count);
+    setCount((prevCount) => prevCount + 1);
   }
 
   return (
@@ -26,4 +25,9 @@ export default function BugMutatedState() {
 }
 
 // Explanation:
-// (Write your explanation here)
+// The count was mutated directly with count++ before calling setCount,
+// which is not a safe way to update state — React doesn't detect changes
+// to a variable unless they go through the setter function. The fix uses
+// the functional update form, setCount(prevCount => prevCount + 1), which
+// always reads the most current state value rather than a potentially
+// stale one.

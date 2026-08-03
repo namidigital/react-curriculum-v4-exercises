@@ -6,7 +6,8 @@ export default function BugEventPropagation() {
     alert("RED BOX CLICKED ❌ Don't show me!");
   }
 
-  function handleInnerClick() {
+  function handleInnerClick(event) {
+    event.stopPropagation();
     alert('Button Clicked ✅');
   }
 
@@ -22,3 +23,13 @@ export default function BugEventPropagation() {
     </>
   );
 }
+
+// Explanation:
+// Click events bubble upward from the element that was actually clicked
+// to all of its parent elements, unless something stops that bubbling.
+// Clicking the inner button was triggering handleInnerClick, but the
+// event then continued bubbling up to the outer div, which triggered
+// handleOuterClick as well — causing both alerts to fire. Calling
+// event.stopPropagation() inside handleInnerClick tells the browser to
+// stop the event from bubbling any further, so only the inner button's
+// handler runs.
